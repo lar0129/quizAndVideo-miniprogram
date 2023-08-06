@@ -1,4 +1,19 @@
-核心功能点：
+项目地址
+
+* https://github.com/lar0129/quizAndVideo-miniprogram
+
+参考项目
+
+* https://gitee.com/uemeng/answer-activity-applet-v2.0
+* https://github.com/wulivictor/ExamOnline
+
+### 部署
+
+* 导入微信开发者工具
+* 在app.js的env配置项 配置云环境id
+* 在云开发平台增加数据库表单项
+
+### 核心功能点：
 
 * 用户：视频播放（格式、长度 涉及性能）
   * 已完成分类与播放
@@ -73,4 +88,4 @@
 
 ​	单位
 
-​	手机号
+​	手机号	
