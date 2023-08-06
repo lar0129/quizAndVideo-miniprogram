@@ -1,0 +1,43 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/test/test",
+        "pages/result/result",
+        "pages/history/history",
+        "pages/rank/rank",
+        "pages/details/details",
+        "pages/my/my",
+        "pages/test/subject",
+        "pages/watch/subject",
+        "pages/watch/video",
+        "pages/wrong/wrong",
+        "pages/my/profile"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "滇金丝猴全境保护网络巡护员技能培训",
+        "navigationBarTextStyle": "black"
+    },
+    "sitemapLocation": "sitemap.json",
+    "tabBar": {
+        "color": "#7f8389",
+        "selectedColor": "#00a8f3",
+        "borderStyle": "black",
+        "backgroundColor": "#f7f7fa",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "主页",
+                "iconPath": "image/main.png",
+                "selectedIconPath": "image/main.png"
+            },
+            {
+                "pagePath": "pages/my/my",
+                "text": "我的",
+                "iconPath": "image/user.png",
+                "selectedIconPath": "image/user.png"
+            }
+        ]
+    }
+}

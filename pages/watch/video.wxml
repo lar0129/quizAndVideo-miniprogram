@@ -1,0 +1,18 @@
+<view class="page-body">
+  <view class="page-section tc">
+
+    <label class="radio my-choosebox"  wx:for="{{videoList}}" wx:for-index="idx" wx:for-item="item">
+
+      <view class="weui-cells">
+        <view class="weui-cell__hd">
+          <view class="weui-label">{{item.detail}}</view>
+        </view>
+      </view>
+
+      <video class="myVideo" src="{{item.url}}"
+      binderror="videoErrorCallback" 	show-mute-btn="true" 	enable-play-gesture="true"></video>
+    
+    </label>
+
+  </view>
+</view>

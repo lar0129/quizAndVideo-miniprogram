@@ -1,0 +1,25 @@
+<view  class="avatar-wrapper"> 
+<button open-type="chooseAvatar" bindtap="onChooseAvatar">
+  <label class="profile-label van-field__label">头像</label>
+  <image class="avatar" src="{{avatarUrl}}"></image>
+</button> 
+</view>
+
+<view class="input-wrapper"> 
+  <label class="profile-label" style="position: relative; left: 27rpx; top: 15rpx">昵称</label>
+  <input class="avatar"
+    value="{{ nickName }}"
+    label="昵称"
+    placeholder="请输入昵称"
+    input-align="right"
+    type="nickname"
+    bindinput="onChangeNickname"
+  />
+</view>
+
+<view class="submit">
+  <button type="primary" bindtap="submitUserInfo" size="large">完成</button>
+</view>
+
+ 
+
