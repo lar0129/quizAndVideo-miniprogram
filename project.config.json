@@ -1,9 +1,5 @@
 {
     "description": "项目配置文件",
-    "packOptions": {
-        "ignore": [],
-        "include": []
-    },
     "setting": {
         "urlCheck": false,
         "es6": true,
@@ -24,8 +20,6 @@
         "compileHotReLoad": false,
         "lazyloadPlaceholderEnable": false,
         "useMultiFrameRuntime": true,
-        "useApiHook": true,
-        "useApiHostProcess": true,
         "babelSetting": {
             "ignore": [],
             "disablePlugins": [],
@@ -40,12 +34,10 @@
         "disableUseStrict": false,
         "minifyWXML": true,
         "showES6CompileOption": false,
-        "useCompilerPlugins": false
+        "useCompilerPlugins": false,
+        "ignoreUploadUnusedFiles": true
     },
     "compileType": "miniprogram",
-    "libVersion": "2.20.1",
-    "appid": "wxa88dcb34acd51dec",
-    "projectname": "%E5%BC%80%E6%BA%90%E7%AD%94%E9%A2%98%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E4%BA%91%E5%BC%80%E5%8F%91%E7%89%88-%E4%B8%BB%E9%A2%98%E6%B4%BB%E5%8A%A8%E7%AD%94%E9%A2%98v0-v2-gitee",
     "simulatorType": "wechat",
     "simulatorPluginLibVersion": {},
     "condition": {
@@ -66,5 +58,10 @@
     "editorSetting": {
         "tabIndent": "auto",
         "tabSize": 4
-    }
+    },
+    "packOptions": {
+        "ignore": [],
+        "include": []
+    },
+    "appid": "wxa88dcb34acd51dec"
 }
