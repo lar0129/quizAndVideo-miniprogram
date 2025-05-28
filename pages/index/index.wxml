@@ -10,8 +10,8 @@
       <button class='cu-btn bg-red round block lg margin-top'>题库练习</button>
     </view>
 
-    <view bindtap="goToVideo">
-      <button class='cu-btn bg-red round block lg margin-top'>错题回顾</button>
+    <view bindtap="goToMy">
+      <button class='cu-btn bg-red round block lg margin-top'>我的信息</button>
     </view>
     </block>
 

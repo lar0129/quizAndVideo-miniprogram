@@ -10,7 +10,8 @@
   </view>
   <view class='page__hd padding'>
     <view class="page__title">
-      <text class="text-bold">【单选题】</text>
+      <text class="text-bold" wx:if="{{questionList[index]['true'].length <=1}}">【单选题】</text>
+      <text class="text-bold" wx:else>【多选题】</text>
       {{questionList[index].question}}
     </view>
   </view>

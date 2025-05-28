@@ -68,6 +68,12 @@ Page({
     })
   },
 
+  goToMy() {
+    wx.navigateTo({
+      url: '../my/my'
+    })
+  },
+
   goToHistory() {
     wx.navigateTo({
       url: '../history/history'

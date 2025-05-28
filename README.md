@@ -15,3 +15,35 @@
 - 不单独搭建服务器，可以采用微信云开发。协助甲方在其个人微信账号下完成部署使用。 √
 
 # 数据库表单
+初始化时，需创建8个集合。并在activityQuestionType中添加题目集，在activityQuestion中添加题目。
+
+1. activityQuestion 所有题目列表。可导入/static/中的题目列表.json文件查看样例
+   1. _id
+   2. typeId 归属的题目集ID，需一一对应到activityQuestion中的typeId
+   3. question 题干
+   4. option 选项
+   5. true 答案
+   6. results 解题思路
+   7. checked 预留字段，无意义
+2. activityQuestionType 题目集
+   1. _id
+   2. type 题目集名称
+   3. typeId 题目集ID
+   4. pid 预留字段固定为"001"，便于快速替换题目集
+3. WrongQuestion 错题集
+   1. _id
+   2. _openid 用户在微信中的唯一标识
+   3. questionId 题目ID
+4. activityUser
+   1. _id
+   2. _openid 用户在微信中的唯一标识
+   3. question_num 答题数量
+   4. name 用户名
+   5. trueName 真实姓名
+   6. phone 手机号
+   7. checked 审核状态
+5. test_position 答题位置
+   1. _id
+   2. _openid 用户在微信中的唯一标识
+   3. typeId 题目集ID
+   4. position 在该题目集的上次最后答题位置
