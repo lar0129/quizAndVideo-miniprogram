@@ -1,0 +1,42 @@
+<view class="page-body">
+  <view class="page-section tc">
+
+    <label class="radio my-choosebox"  wx:for="{{videoList}}" wx:for-index="idx" wx:for-item="item">
+
+      <view class="weui-cells">
+        <view class="weui-cell__hd">
+          <!-- <view class="sortnum"></view> -->
+          <view class="weui-label" style="text-align: center;">{{item.detail}}</view>
+        </view>
+      </view>
+
+      
+      <txv-video vid="{{item.url}}" 
+           playerid="{{item._id}}" 
+           isNeedMutex="{{isNeedMutex}}"
+           autoplay="{{false}}"
+           enablePlayGesture="{{true}}"
+           usePoster="{{false}}">
+      </txv-video>
+      
+    
+    </label>
+
+    <!-- <txv-video vid="q3531cg0d8f" 
+           playerid="e0354z3cqjp" 
+           isNeedMutex="{{isNeedMutex}}"
+           autoplay="{{false}}"
+           enablePlayGesture="{{true}}"
+    ></txv-video>
+    <view class="block">------------丰姿绰约分割线-----------</view>
+    <txv-video vid="j3531yerjgc" 
+           playerid="p0382yhi66i" 
+           autoplay='{{true}}'
+           isHiddenStop="{{isHiddenStop}}"
+           isNeedMutex="{{isNeedMutex}}"
+           autoplay="{{false}}"
+           enablePlayGesture="{{true}}">
+    </txv-video> -->
+
+  </view>
+</view>

@@ -1,0 +1,24 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/test/test",
+        "pages/result/result",
+        "pages/history/history",
+        "pages/rank/rank",
+        "pages/details/details",
+        "pages/my/my",
+        "pages/test/subject",
+        "pages/watch/subject",
+        "pages/wrong/wrong",
+        "pages/my/profile"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "巡护员知识库",
+        "navigationBarTextStyle": "black"
+    },
+    "sitemapLocation": "sitemap.json",
+      "usingComponents": {
+    }
+}

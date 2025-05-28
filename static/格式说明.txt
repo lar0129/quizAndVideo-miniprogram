@@ -1,0 +1,11 @@
+1. 大括号{}和英文双引号""都不要删除，直接复制粘贴就好
+
+2.添加新题库时，只需更改_id、question、true、results、option五项即可。checked、typeId不需要变动。
+
+表项说明：
+	_id：题目序号
+	question：问题描述
+	true：正确选项
+	results：题目答案解析
+	option：各个细分选项
+	

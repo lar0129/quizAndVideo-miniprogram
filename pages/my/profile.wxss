@@ -1,0 +1,41 @@
+.avatar-wrapper {
+    padding: 0; 
+    border-radius: 8px;
+    margin-top: 20rpx;
+    background-color: white;
+  }
+
+.input-wrapper {
+  padding: 0; 
+  height: 100rpx;
+  border-radius: 8px;
+  margin-top: 20rpx;
+  background-color: white;
+}
+.profile-label{
+  float: left;
+  /* margin-left: 20rpx; */
+  margin-top: 20rpx;
+  font-size: 14px;
+  color: #646566
+}
+.otherprofile{
+  display: block;
+  width: 76px;
+  height: 56px;
+  float: right;
+}
+.avatar {
+  display: block;
+  width: 56px;
+  height: 56px;
+  float: right;
+  /*margin-right: 40rpx;*/
+}
+
+.submit{
+  margin: 0 auto;
+  margin-top: 50rpx;
+  width: 90%;
+}
+  

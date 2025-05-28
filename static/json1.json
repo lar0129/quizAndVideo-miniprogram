@@ -1,0 +1,42 @@
+{
+    "_id": "001",
+    "checked": false,
+    "option": {
+        "A": "小程序",
+        "C": "TNC",
+        "D": "金丝猴",
+        "B": "开发"
+    },
+    "question": "测试问题应选（）",
+    "true": "C",
+    "results": "解析",
+    "typeId": 1.0
+}
+{
+    "_id": "002",
+    "checked": false,
+    "question": "测试问题应选（）",
+    "true": "C",
+    "results": "解析",
+    "typeId": 2.0,
+    "option": {
+        "C": "333",
+        "D": "444",
+        "A": "111",
+        "B": "222"
+    }
+}
+{
+    "_id": "003",
+    "checked": false,
+    "question": "测试问题应选（）",
+    "true": "C",
+    "results": "解析",
+    "typeId": 1.0,
+    "option": {
+        "B": "555",
+        "C": "666",
+        "D": "777",
+        "A": "444"
+    }
+}
