@@ -272,8 +272,38 @@ Page({
 
     var trueValue = this.data.questionList[this.data.index]['true'];
     var chooseVal = this.data.chooseValue[this.data.index];
+    console.log("chooseVal: ", chooseVal)
+    console.log("trueValue: ", trueValue)
+
     var wrongid = this.data.questionList[this.data.index]._id;
-    if (chooseVal.toString() != trueValue.toString()) {
+    
+    // 判断是否为多选题
+    var isMultiQuestion = trueValue.length > 1;
+    var isCorrect = false;
+    
+    if (Array.isArray(chooseVal)) {
+      // 将用户选择的选项转换为字符串数组
+      var chooseValStr = chooseVal.join('');
+    }
+    if (isMultiQuestion) {
+      // 多选题判断逻辑
+      // 检查用户选择的选项数量是否与正确答案相同
+      if (chooseVal.length === trueValue.length) {
+        // 对用户选择的选项进行排序，然后与正确答案比较
+        var sortedChooseVal = chooseValStr.split('').sort().join('');
+        var sortedTrueValue = trueValue.split('').sort().join('');
+        isCorrect = (sortedChooseVal === sortedTrueValue);
+      }
+    } else {
+      // 单选题判断逻辑
+      isCorrect = (chooseVal.toString() === trueValue.toString());
+    }
+    
+    if (!isCorrect) {
+      wx.showToast({
+        title: '答案错误! 已计入错题集',
+        icon: 'none'
+      })
       // 答错则记录错题
       this.ErrorQSAdd(wrongid);
       console.log('false');
@@ -281,7 +311,11 @@ Page({
       this.data.wrongListSort.push(this.data.index);
       this.data.wrongListId.push(this.data.questionList[this.data.index]._id);
       this.data.questionNumber.error++;
-    }else{
+    } else {
+      wx.showToast({
+        title: '答案正确!',
+        icon: 'none'
+      })
       // 答对则累计总分
       this.ErrorQSUpdate(wrongid);
       // 更新答题数  
@@ -295,10 +329,20 @@ Page({
     let rightAnswer = this.data.questionList[this.data.index].true
     let chooseValue = this.data.chooseValue[this.data.index]
     this.data.colorList[this.data.index] = {}
-    this.data.colorList[this.data.index][chooseValue]= 'rgba(255, 0, 0, 0.473)'
+    
+    // 先将所有用户选择的选项设置为红色
+    for(let i=0;i<chooseValue.length;i++){
+      this.data.colorList[this.data.index][chooseValue[i]]= 'rgba(255, 0, 0, 0.473)'
+    }
+    
+    // 再将所有正确答案设置为绿色
     for(let i=0;i<rightAnswer.length;i++){
       this.data.colorList[this.data.index][rightAnswer[i]]= 'rgba(0, 128, 0, 0.452)'
+      if(!isCorrect && chooseValue.indexOf(rightAnswer[i]) !== -1){
+        this.data.colorList[this.data.index][rightAnswer[i]]= 'rgba(255, 255, 0, 0.5)' // 黄色
+      }
     }
+
 
     //更新当前位置
     this.PositionUpdate(this.data.index);

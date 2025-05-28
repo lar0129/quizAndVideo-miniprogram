@@ -8,26 +8,27 @@
   </view>
   <view class='page__hd padding'>
     <view class="page__title">
-      <text class="text-bold">【单选题】</text>
+      <text class="text-bold" wx:if="{{questionList[index]['true'].length <=1}}">【单选题】</text>
+      <text class="text-bold" wx:else>【多选题】</text>
       {{questionList[index].question}}
     </view>
   </view>
 
   <view class="page__bd">
-    <radio-group lass="radio-group" bindchange="radioChange">
+    <checkbox-group lass="radio-group" bindchange="radioChange">
       <label class="radio my-choosebox" wx:if="{{!showAnswer[index]}}" wx:for="{{questionList[index].option}}" wx:for-index="key"  wx:for-item="value" wx:key="index" >
-        <radio class="radio_right" value="{{key}}" checked="{{questionList[index].checked}}" disabled="{{showAnswer[index]}}"/>
+        <checkbox class="radio_right" value="{{key}}" checked="{{questionList[index].checked}}" disabled="{{showAnswer[index]}}"/>
         <text class="margin-left-xs">{{key}} :</text>
         <text class="margin-left-xs">{{value}}</text>
       </label>
 
       <label class="radio my-choosebox" wx:if="{{showAnswer[index]}}" wx:for="{{questionList[index].option}}"     wx:for-index="key"  wx:for-item="value" wx:key="index"
       style="background-color:{{colorList[index][key]}}" >
-        <radio class="radio_right" value="{{key}}" checked="{{questionList[index].checked}}" disabled="{{showAnswer[index]}}"/>
+        <checkbox class="radio_right" value="{{key}}" checked="{{questionList[index].checked}}" disabled="{{showAnswer[index]}}"/>
         <text class="margin-left-xs">{{key}} :</text>
         <text class="margin-left-xs">{{value}}</text>
       </label>
-    </radio-group>
+    </checkbox-group>
   </view>
 
   <view class="main">
