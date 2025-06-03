@@ -1,5 +1,5 @@
 <view  class="avatar-wrapper"> 
-<button open-type="chooseAvatar" bindtap="onChooseAvatar">
+<button open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
   <label class="profile-label van-field__label">头像</label>
   <image class="avatar" src="{{avatarUrl}}"></image>
 </button> 
@@ -8,7 +8,7 @@
 <view class="input-wrapper"> 
   <label class="profile-label" style="position: relative; left: 27rpx; top: 15rpx">昵称</label>
   <input class="otherprofile"
-    value="{{ nickName }}"
+    value="{{ nickname }}"
     label="昵称"
     placeholder="请输入昵称"
     input-align="right"
@@ -18,9 +18,21 @@
 </view>
 
 <view class="input-wrapper"> 
+  <label class="profile-label" style="position: relative; left: 27rpx; top: 15rpx">真实姓名</label>
+  <input class="otherprofile"
+    value="{{ trueName }}"
+    label="真实姓名"
+    placeholder="真实姓名"
+    input-align="right"
+    type="trueName"
+    bindinput="onChangeTrueName"
+  />
+</view>
+
+<view class="input-wrapper"> 
   <label class="profile-label" style="position: relative; left: 27rpx; top: 15rpx">电话</label>
   <input class="otherprofile"
-    value="{{ Tel }}"
+    value="{{ tel }}"
     label="电话"
     placeholder="联系电话"
     input-align="right"
@@ -32,7 +44,7 @@
 <view class="input-wrapper"> 
   <label class="profile-label" style="position: relative; left: 27rpx; top: 15rpx">公司</label>
   <input class="otherprofile"
-    value="{{ Company }}"
+    value="{{ company }}"
     label="公司"
     placeholder="公司名称"
     input-align="right"

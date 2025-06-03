@@ -9,7 +9,7 @@
         <view class='text-gray'>
           <text class="{{index+1 <= 3?'icon-upstagefill text-yellow':'icon-medalfill text-gray'}}"></text> 第<text class="{{index+1 <= 3?'text-yellow':'text-gray'}} text-xl">{{index+1}}</text>名
         </view>
-        <view class='text-grey text-sm'>{{item.nickName}}</view>
+        <view class='text-grey text-sm'>{{item.nickname}}</view>
       </view>
       <view class='action'>
         <view class='text-red text-xl'>已答对{{item.question_num}}题</view>

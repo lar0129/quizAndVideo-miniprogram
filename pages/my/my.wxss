@@ -19,10 +19,11 @@
     width: 75px;
     padding-left: 10px;
 }
-.page-info .header .avatar .avatarimage{
+.avatarimage{
     width: 75px;
     height: 75px;
     border-radius: 10px;
+    margin-left: 10px;
 }
 .page-info .header .nickname{
     font-size: 18px;
@@ -60,6 +61,11 @@
 .page-info .menu .title{
     padding-left: 10px;
 }
+
+.nickname{
+  
+}
+
 .page-info .menu .arraw{
     height: 50px;
     line-height: 50px;

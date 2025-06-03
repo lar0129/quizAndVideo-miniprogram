@@ -15,14 +15,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-    avatarUrl: '../../image/user.png',
+    avatarUrl: '../../image/nouser.png',
     nickname:'',
-    Nickname:'',
-    Company:'',
-    Tel:'',
     tel:'',
     company:'',
     fileTempPath:'',
+    trueName:''
   },
 
   /**
@@ -44,7 +42,10 @@ Page({
     if (userInfo) {
       this.setData({
         avatarUrl:userInfo.avatarUrl,
-        nickName:userInfo.nickName
+        nickname:userInfo.nickname,
+        tel:userInfo.tel,
+        trueName:userInfo.trueName,
+        company:userInfo.company,
       })
     }
   },
@@ -91,7 +92,7 @@ Page({
   },
   onChooseAvatar(e) {
     const { avatarUrl } = e.detail 
-    console.log(avatarUrl)
+    console.log("avatarUrl", avatarUrl)
     this.setData({
       fileTempPath:avatarUrl,
       avatarUrl:avatarUrl,
@@ -105,6 +106,11 @@ Page({
   onChangeTel(e){
     this.setData({
       tel:e.detail.value
+    })
+  },
+  onChangeTrueName(e){
+    this.setData({
+      trueName:e.detail.value
     })
   },
   onChangeCompany(e){
@@ -121,20 +127,22 @@ Page({
       data:{
         company:this.data.company,
         tel:this.data.tel,
-        username:this.data.nickname,
-        avatarUrl:this.data.avatarUrl
+        nickname:this.data.nickname,
+        avatarUrl:this.data.avatarUrl,
+        trueName:this.data.trueName,
+        checked:false
       },
     }).then(res=>{
       console.log("activityinfo update success");
       wx.showToast({
-        title: '修改成功',
+        title: '成功提交待审核',
         icon: 'success',
         duration: 2000//持续的时间
       })
     })
     .catch(err=>{
       wx.showToast({
-        title: '修改失败',
+        title: '提交审核失败',
         icon: 'success',
         duration: 2000//持续的时间
       })

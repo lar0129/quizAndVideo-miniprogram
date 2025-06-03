@@ -1,0 +1,219 @@
+/* pages/admin.wxss */
+/* 密码验证界面样式 */
+.password-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+  margin-top: 200rpx;
+}
+
+.password-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 40rpx;
+}
+
+.password-input {
+  width: 80%;
+  height: 80rpx;
+  border: 2rpx solid #ddd;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  margin-bottom: 30rpx;
+  font-size: 28rpx;
+}
+
+.password-button {
+  width: 80%;
+  height: 80rpx;
+  background-color: #07c160;
+  color: #fff;
+  border-radius: 8rpx;
+  font-size: 30rpx;
+  line-height: 80rpx;
+  text-align: center;
+}
+
+.container {
+  padding: 0;
+  background-color: #fff;
+  /* width:max-content; */
+}
+
+.header {
+  width:max-content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  margin-bottom: 10rpx;
+  background-color: #fff;
+}
+
+.title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.auto-approve {
+  display: flex;
+  align-items: center;
+}
+
+.auto-approve text {
+  margin-right: 8rpx;
+  font-size: 26rpx;
+}
+
+.batch-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15rpx 30rpx;
+  background-color: #fff;
+  margin-bottom: 10rpx;
+  box-shadow: 0 1rpx 5rpx rgba(0, 0, 0, 0.05);
+}
+
+.select-all {
+  display: flex;
+  align-items: center;
+}
+
+.select-all text {
+  margin-left: 6rpx;
+  font-size: 26rpx;
+}
+
+.action-buttons {
+  display: flex;
+}
+
+.action-buttons button {
+  margin-left: 15rpx;
+  font-size: 24rpx;
+  padding: 8rpx 25rpx;
+  line-height: 1.4;
+}
+
+.btn-approve {
+  background-color: #07c160;
+  color: #fff;
+}
+
+.btn-reject {
+  background-color: #fa5151;
+  color: #fff;
+}
+
+.user-list {
+  background-color: #fff;
+  padding: 15rpx 0;
+  box-shadow: 0 1rpx 5rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: 10rpx;
+}
+
+.list-header {
+  display: flex;
+  padding: 15rpx 30rpx;
+  border-bottom: 1rpx solid #eee;
+  font-weight: bold;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.header-item:first-child {
+  flex: 0.5;
+  text-align: center;
+}
+
+.header-item:nth-child(2),
+.header-item:nth-child(3),
+.header-item:nth-child(4) {
+  flex: 1;
+  text-align: center;
+}
+
+.header-item:last-child {
+  flex: 1.5;
+  text-align: center;
+}
+
+.scroll-view {
+  max-height: 850rpx;
+}
+
+.user-item {
+  display: flex;
+  align-items: center;
+  padding: 15rpx 30rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.item-select {
+  flex: 0.5;
+  text-align: center;
+  font-size: 26rpx;
+}
+
+.item-name, .item-phone, .item-status {
+  flex: 1;
+  text-align: center;
+  font-size: 26rpx;
+}
+
+.item-actions {
+  flex: 1.5;
+  text-align: center;
+  font-size: 26rpx;
+}
+
+.item-status {
+  font-weight: bold;
+}
+
+.status-approved {
+  color: #07c160;
+}
+
+.status-pending {
+  color: #fa8c16;
+}
+
+.action-btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-mini {
+  font-size: 22rpx;
+  padding: 4rpx 10rpx;
+  line-height: 1.2;
+  margin: 0 3rpx;
+  min-width: 60rpx;
+}
+
+.processed-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.loading, .empty-list {
+  text-align: center;
+  padding: 30rpx 0;
+  color: #999;
+  font-size: 26rpx;
+}
+
+.refresh-tip {
+  text-align: center;
+  color: #999;
+  font-size: 24rpx;
+  margin: 10rpx 0;
+  padding-bottom: 10rpx;
+}

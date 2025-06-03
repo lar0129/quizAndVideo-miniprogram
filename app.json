@@ -10,7 +10,8 @@
         "pages/test/subject",
         "pages/watch/subject",
         "pages/wrong/wrong",
-        "pages/my/profile"
+        "pages/my/profile",
+        "pages/admin/admin"
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -19,6 +20,5 @@
         "navigationBarTextStyle": "black"
     },
     "sitemapLocation": "sitemap.json",
-      "usingComponents": {
-    }
+    "usingComponents": {}
 }

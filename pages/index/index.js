@@ -11,24 +11,34 @@ Page({
   },
   onLoad() {
     this.login();
-    this.getUserProfile();
   },
-  InitUser(){
+  getUserProfile(){
     activityUser.where({
       _openid:app.globalData.openid
     }).get()
     .then(res=>{
+      console.log("getUserProfile:", res);
       if(typeof(res.data) == undefined || res.data == null || res.data ==""){
         activityUser.add({
           data:{
+            // _openid:app.globalData.openid,
             question_num:Number(0)
           },
         }).then(res=>{
-          console.log("add success");
+          console.log("getUserProfile add success");
         }).catch(err=>{
-          console.log("add error");
+          console.log("getUserProfile add error");
           console.log(err);
         })
+      }
+      else{
+        this.setData({
+          userInfo: res.data[0],
+          hasUserInfo: true
+        })
+        wx.setStorageSync("userInfo",res.data[0])
+        app.globalData.userInfo = res.data[0]
+        app.globalData.hasUserInfo = true
       }
     })
     .catch(err=>{
@@ -43,6 +53,7 @@ Page({
       success:res=>{
         console.log("login openid: ", res.result.openid);
         app.globalData.openid=res.result.openid;
+        this.getUserProfile();
       },
       fail:err=>{
         console.error(err);
@@ -51,6 +62,14 @@ Page({
   },
   //事件处理函数
   goToTest() {
+    if (!this.data.userInfo.checked) {
+      wx.showModal({
+        title: '提示',
+        content: '您的账号尚未通过审核，请等待管理员审核后，退出重启再试',
+        showCancel: false
+      });
+      return;
+    }
     wx.navigateTo({
       url: '../test/subject'
     })
@@ -85,24 +104,7 @@ Page({
       url: '../rank/rank'
     })
   },
-  getUserProfile(e) {
-    let _this = this
-    // this.InitUser();
-    wx.getUserProfile({
-      desc: '用于完善资料',
-      success: (res) => {
-        console.log("getUserProfile:", res);
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-        console.log("userInfo: ", res.userInfo);
-        wx.setStorageSync("userInfo",res.userInfo)
-        app.globalData.userInfo = res.userInfo
-        app.globalData.hasUserInfo = true
-      }
-    })
-  },
+
   onShareAppMessage(res) {
     return {
       title: '@你，快来参与巡护员知识答题活动吧~'

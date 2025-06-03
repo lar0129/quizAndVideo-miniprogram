@@ -435,9 +435,12 @@ Page({
       },
     })
     .then(res=>{
+      console.log("QuestionNumUpdate: ",res)
       if(res.stats.updated===0){
-        this.addQuestionNum()
-        console.log("addQuestionNum!")
+        wx.showToast({
+          title: '个人信息疑似未录入，请联系管理员',
+          icon: 'none'
+        })
       }
     })
     .catch(err=>{

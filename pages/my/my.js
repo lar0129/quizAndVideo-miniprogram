@@ -1,4 +1,8 @@
 const app = getApp();
+
+const db = wx.cloud.database();
+const activityUser = db.collection('activityUser');
+
 Page({
 
   /**
@@ -6,11 +10,9 @@ Page({
    */
   data: {
     openid: '',
-    nickName: '',
-    avatarUrl: '',
+    nickname: "微信用户",
+    avatarUrl: '../../image/nouser.png',
     userInfo: {
-      nickName: '',
-      avatarUrl: '',
     }
   },
 
@@ -18,12 +20,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(app.globalData.userInfo.avatarUrl);
-    console.log(app.globalData.userInfo.nickName);
+    console.log("my.page userInfo",app.globalData.userInfo);
+    let userInfo = app.globalData.userInfo
     this.setData({
-      userInfo: app.globalData.userInfo,
-      avatarUrl:app.globalData.userInfo.avatarUrl,
-      nickName:app.globalData.userInfo.nickName
+      userInfo: userInfo,
+      nickname: userInfo.nickname,
+      avatarUrl:userInfo.avatarUrl
     })
     // let _this = this;
     // wx.login({
@@ -58,33 +60,33 @@ Page({
     //   }
     // })  
   },
-  Getuserinfobyopenid: function(openid){
-    let _this = this;
-    wx.request({
-      url: 'https://www.xiaomutong.com.cn/web/index.php?r=userinfo/getuserinfobyopenid',
-      method: 'post',
-      data: {
-        openid: openid
-      },
-      success (res) {
-        console.log(res.data);
-        if(res.data && res.data.code == 0 && res.data.result){
-          console.log(res.data);
-          let userInfo = JSON.parse(decodeURIComponent(res.data.result.userinfo));
-          let avatarUrl = userInfo.avatarUrl;
-          let nickName = userInfo.nickName;
-          _this.setData({
-            userInfo: userInfo,
-            avatarUrl: avatarUrl,
-            nickName: nickName
-          })
-        }
-      },
-      fail (err){
-        console.log(err);
-      }
-    })
-  },
+  // Getuserinfobyopenid: function(openid){
+  //   let _this = this;
+  //   wx.request({
+  //     url: 'https://www.xiaomutong.com.cn/web/index.php?r=userinfo/getuserinfobyopenid',
+  //     method: 'post',
+  //     data: {
+  //       openid: openid
+  //     },
+  //     success (res) {
+  //       console.log(res.data);
+  //       if(res.data && res.data.code == 0 && res.data.result){
+  //         console.log(res.data);
+  //         let userInfo = JSON.parse(decodeURIComponent(res.data.result.userinfo));
+  //         let avatarUrl = userInfo.avatarUrl;
+  //         let nickName = userInfo.nickName;
+  //         _this.setData({
+  //           userInfo: userInfo,
+  //           avatarUrl: avatarUrl,
+  //           nickName: nickName
+  //         })
+  //       }
+  //     },
+  //     fail (err){
+  //       console.log(err);
+  //     }
+  //   })
+  // },
   bindMyHistory: function(){
      wx.navigateTo({
       url: '../history/history'
@@ -108,6 +110,13 @@ Page({
         url: '/pages/rank/rank'
     })
   },
+
+  bindAdmin: function(){
+    wx.navigateTo({
+        url: '/pages/admin/admin'
+    })
+  },
+
   bindmyinfo: function(){
     let url = '/pages/notice/index';
     wx.navigateTo({
