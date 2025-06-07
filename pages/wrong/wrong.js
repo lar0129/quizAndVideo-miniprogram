@@ -40,16 +40,37 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options){
-    // 获取题库-函数执行
+    // 如果有传入id和index参数，说明是从错题列表页面跳转过来的
+    if (options.id && options.index) {
+      // 从缓存中获取错题列表
+      const wrongQuestions = wx.getStorageSync('wrongQuestions') || [];
+      const index = parseInt(options.index);
+      
+      if (wrongQuestions.length > 0) {
+        this.setData({
+          questionList: wrongQuestions,
+          index: index
+        });
+        // 初始化答案显示状态
+        let showAnswer = [];
+        for (let i = 0; i < wrongQuestions.length; i++) {
+          showAnswer.push(false);
+        }
+        this.setData({ showAnswer });
+        return;
+      }
+    }
+    
+    // 如果没有传入参数或缓存中没有错题列表，则获取所有错题
     this.getQuestionList(app.globalData.openid);
   },
 
   onUnload: function () {
-    wx.setStorageSync('chooseValue', this.data.chooseValue)
-    wx.setStorageSync('showAnswer', this.data.showAnswer)
-    wx.setStorageSync('wrong', this.data.wrong)
-    wx.setStorageSync('colorList', this.data.colorList)
-    return
+    wx.setStorageSync('chooseValue', this.data.chooseValue);
+    wx.setStorageSync('showAnswer', this.data.showAnswer);
+    wx.setStorageSync('wrong', this.data.wrong);
+    wx.setStorageSync('colorList', this.data.colorList);
+    return;
   },
 
   // 获取错题库-函数定义
@@ -77,11 +98,20 @@ Page({
         questionList:res.data,
         index: 0
       });
+      
+      // 初始化答案显示状态
+      let showAnswer = [];
+      for (let i = 0; i < res.data.length; i++) {
+        showAnswer.push(false);
+      }
+      this.setData({ showAnswer });
+      
       wx.hideLoading();
     })
     })
     .catch(err=>{
       console.log('wrong question error');
+      wx.hideLoading();
     })
   },
 
@@ -92,8 +122,7 @@ Page({
 
   confirmAnswer(){
     this.chooseJudge();
-},
-
+  },
 
   // 下一题/提交 按钮
   nextSubmit(){
@@ -129,6 +158,11 @@ Page({
         icon: 'none'
       })
     }
+  },
+  
+  // 返回错题列表
+  backToList(){
+    wx.navigateBack();
   },
 
   // 判断所选择的选项是否为正确答案

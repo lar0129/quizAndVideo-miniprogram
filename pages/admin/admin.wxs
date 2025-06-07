@@ -1,0 +1,11 @@
+// isUserSelected.wxs
+var isUserSelected = function (selectedUsers, userId) {
+  // WXS不支持includes方法，使用indexOf替代
+  for (var i = 0; i < selectedUsers.length; i++) {
+    if (selectedUsers[i] === userId) {
+      return true;
+    }
+  }
+  return false;
+}
+module.exports.isUserSelected = isUserSelected;

@@ -24,6 +24,26 @@ page{
   padding: 30rpx 0 0;
 }
 
+/* 新手指导按钮样式 */
+.guide-btn {
+  position: fixed;
+  right: 30rpx;
+  top: 70%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 20rpx;
+  border-radius: 10rpx;
+  z-index: 10;
+  box-shadow: 0 0 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.guide-btn text {
+  color: #b93cc7;
+  font-size: 28rpx;
+  writing-mode: vertical-rl;
+  letter-spacing: 5rpx;
+}
+
 page{
   background-color: #ffffff
 }

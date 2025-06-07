@@ -102,7 +102,7 @@ Page({
 
   bindMyStudy: function(){
     wx.navigateTo({
-        url: '/pages/wrong/wrong'
+        url: '/pages/wrong/wrong_list'
       })
   },
   bindRank: function(){

@@ -5,7 +5,11 @@
         <block wx:for="{{subjects}}" wx:key="*this" wx:for-index="idx" wx:for-item="subject">
             <view wx:if="{{subject.typeId<=10}}" class="subject" bindtap="toEntryPage" data-typeId="{{subject.typeId}}" data-id="{{subject._id}}" data-count="{{subject.count}}">
                 <view class="sortnum">{{idx+1}}</view>
-                <view class="name">{{subject.type}}</view>
+                <view class="name">
+                    <view class="small-gray">{{subject.type}} <text class="current-progress small-gray" wx:if="{{positions[subject.typeId] !== undefined}}">({{positions[subject.typeId] + 1}}/{{subject.count}}题)
+                    </text>
+                    <text class="current-progress small-gray" wx:else>(未开始)</text></view>
+                </view>
                 <view class="arraw">></view>
             </view>       
         </block>

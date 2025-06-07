@@ -10,13 +10,15 @@ Page({
      * 页面的初始数据
      */
     data: {
-        userList: [],        // 待审核用户列表
+        userList: [],        // 用户列表
         selectedUsers: [],    // 已选择的用户ID列表
+        ifSelectedUsers: {}, // 选择框是否选中
         autoApprove: false,   // 是否自动审核
         loading: false,       // 加载状态
         allSelected: false,   // 是否全选
         isAuthenticated: false, // 是否已通过密码验证
-        adminPassword: ''     // 管理员密码输入
+        adminPassword: '',     // 管理员密码输入
+        currentTab: 'pending',  // 当前选中的标签页：pending-待审核，approved-已通过，rejected-已拒绝
     },
 
     /**
@@ -28,7 +30,8 @@ Page({
 
     // 检查是否已通过密码验证
     checkAuthentication() {
-        const isAuthenticated = wx.getStorageSync('adminAuthenticated');
+        // const isAuthenticated = wx.getStorageSync('adminAuthenticated');
+        const isAuthenticated = false
         if (isAuthenticated) {
             this.setData({ isAuthenticated: true });
             this.loadUserList();
@@ -54,7 +57,7 @@ Page({
                 const correctPassword = res.result.config.adminPassword;
                 if (adminPassword === correctPassword) {
                     this.setData({ isAuthenticated: true });
-                    wx.setStorageSync('adminAuthenticated', true);
+                    // wx.setStorageSync('adminAuthenticated', true);
                     this.loadUserList();
                     this.getAutoApproveStatus();
                 } else {
@@ -91,7 +94,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow() {
-        this.loadUserList();
+        if (this.data.isAuthenticated) {
+            this.loadUserList();
+        }
     },
 
     /**
@@ -130,17 +135,50 @@ Page({
 
     },
 
-    // 加载待审核用户列表
+    // 切换标签页
+    switchTab(e) {
+        const tab = e.currentTarget.dataset.tab;
+        this.setData({
+            currentTab: tab,
+            selectedUsers: [],
+            allSelected: false
+        });
+        this.loadUserList();
+    },
+
+    // 加载用户列表
     loadUserList() {
         this.setData({ loading: true });
-        // 查询trueName不为空的用户
-        activityUser.where({
+        
+        // 根据当前标签页筛选用户
+        let query = activityUser.where({
             trueName: _.neq('')
-        }).get().then(res => {
+        });
+        
+        // 根据当前标签页筛选用户
+        if (this.data.currentTab === 'pending') {
+            // 待审核：checked为空或false或'pending'
+            query = query.where({
+                checked: _.or(_.eq('pending'), _.eq(null), _.eq(false))
+            });
+        } else if (this.data.currentTab === 'approved') {
+            // 已通过：checked为'approved'
+            query = query.where({
+                checked: 'approved'
+            });
+        } else if (this.data.currentTab === 'rejected') {
+            // 已拒绝：checked为'rejected'
+            query = query.where({
+                checked: 'rejected'
+            });
+        }
+        
+        query.get().then(res => {
             this.setData({
                 userList: res.data,
                 loading: false,
                 selectedUsers: [],
+                allSelected: false
             });
         }).catch(err => {
             console.error('获取用户列表失败', err);
@@ -189,7 +227,9 @@ Page({
         const userId = e.currentTarget.dataset.id;
         const approve = e.currentTarget.dataset.approve;
         
-        this.updateUserStatus([userId], approve);
+        // 将布尔值转换为字符串状态
+        const status = approve ? 'approved' : 'rejected';
+        this.updateUserStatus([userId], status);
     },
 
     // 批量审核用户
@@ -205,11 +245,13 @@ Page({
             return;
         }
         
-        this.updateUserStatus(selectedUsers, approve);
+        // 将布尔值转换为字符串状态
+        const status = approve ? 'approved' : 'rejected';
+        this.updateUserStatus(selectedUsers, status);
     },
 
     // 更新用户审核状态
-    updateUserStatus(userIds, approve) {
+    updateUserStatus(userIds, status) {
         if (userIds.length === 0) return;
         
         this.setData({ loading: true });
@@ -219,7 +261,7 @@ Page({
             name: 'batchUpdateUsers',
             data: {
                 userIds,
-                checked: approve
+                status // 传递字符串状态
             }
         }).then(res => {
             console.log('审核结果', res);
@@ -229,7 +271,7 @@ Page({
             });
             
             // 发送审核结果通知
-            this.sendApprovalNotification(userIds, approve);
+            this.sendApprovalNotification(userIds, status === 'approved');
             
             // 重新加载用户列表
             this.loadUserList();
@@ -298,5 +340,5 @@ Page({
         }).catch(err => {
             console.error('获取自动审核设置失败', err);
         });
-    }
+    },
 })

@@ -62,22 +62,67 @@ Page({
   },
   //事件处理函数
   goToTest() {
-    if (!this.data.userInfo.checked) {
-      wx.showModal({
-        title: '提示',
-        content: '您的账号尚未通过审核，请等待管理员审核后，退出重启再试',
-        showCancel: false
-      });
-      return;
-    }
-    wx.navigateTo({
-      url: '../test/subject'
+    // 刷新缓存，获取用户状态
+    console.log("login");
+    wx.cloud.callFunction({
+      name:'login',
+      success:res=>{
+        console.log("login openid: ", res.result.openid);
+        app.globalData.openid=res.result.openid;
+        activityUser.where({
+          _openid:app.globalData.openid
+        }).get()
+        .then(res=>{
+          console.log("getUserProfile:", res);
+          if(typeof(res.data) == undefined || res.data == null || res.data ==""){
+            activityUser.add({
+              data:{
+                // _openid:app.globalData.openid,
+                question_num:Number(0)
+              },
+            }).then(res=>{
+              console.log("getUserProfile add success");
+            }).catch(err=>{
+              console.log("getUserProfile add error");
+              console.log(err);
+            })
+          }
+          else{
+            this.setData({
+              userInfo: res.data[0],
+              hasUserInfo: true
+            })
+            wx.setStorageSync("userInfo",res.data[0])
+            app.globalData.userInfo = res.data[0]
+            app.globalData.hasUserInfo = true
+          }
+    
+          if (this.data.userInfo.checked != "approved") {
+            wx.showModal({
+              title: '提示',
+              content: '您的账号尚未通过审核，请等待管理员审核后，退出重启再试',
+              showCancel: false
+            });
+            return;
+          }
+          wx.navigateTo({
+            url: '../test/subject'
+          })
+        })
+        .catch(err=>{
+          console.log('init user error');
+          console.log(err);
+        })
+      },
+      fail:err=>{
+        console.error(err);
+      }
     })
   },
 
   goToDetails() {
     wx.navigateTo({
-      url: '../details/details'
+      url: '../details/details?from=guide'
     })
   },
 

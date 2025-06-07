@@ -1,5 +1,11 @@
 
 <image mode="aspectFill" src="/image/bg1.jpg" class="mw-bg" style="width: 984rpx; height: 1672rpx; display: block; box-sizing: border-box; left: 62rpx; top: -18rpx; position: absolute"></image>
+
+<!-- 新手指导透明按钮 -->
+<view class="guide-btn" bindtap="goToDetails">
+  <text>新手指导</text>
+</view>
+
 <view class="mw-btn">
   <view class="mw-answer">
     <!-- <view wx:if="{{!hasUserInfo}}" bind:tap="getUserProfile">

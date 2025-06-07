@@ -35,7 +35,8 @@ Page({
       right:0,
       error:0,
       count:0
-    }
+    },
+    inputNumber: '' // 用户输入的题号
   },
 
   /**
@@ -218,13 +219,22 @@ Page({
   },
   // 选中选项事件
   radioChange(e){
-    console.log('look');
-    this.data.chooseValue[this.data.index] = e.detail.value;
+    // 根据题目类型处理选择的值
+    const currentQuestion = this.data.questionList[this.data.index];
+    const isMultiQuestion = currentQuestion.true.length > 1;
+    
+    if (isMultiQuestion) {
+      // 多选题处理逻辑保持不变
+      this.data.chooseValue[this.data.index] = e.detail.value;
+    } else {
+      // 单选题处理逻辑，确保值是字符串而不是数组
+      this.data.chooseValue[this.data.index] = e.detail.value;
+    }
   },
 
   // 确认答案
   confirmAnswer(){
-      this.chooseJudge();
+    this.chooseJudge();
   },
 
   // 上一题
@@ -247,8 +257,6 @@ Page({
 
   // 下一题/提交 按钮
   nextSubmit(){
-
-  
     // 判断是不是最后一题
     this.lastJudge();
   },
@@ -307,9 +315,9 @@ Page({
       // 答错则记录错题
       this.ErrorQSAdd(wrongid);
       console.log('false');
-      this.data.wrong++;
       this.data.wrongListSort.push(this.data.index);
       this.data.wrongListId.push(this.data.questionList[this.data.index]._id);
+      this.data.wrong++;
       this.data.questionNumber.error++;
     } else {
       wx.showToast({
@@ -331,18 +339,22 @@ Page({
     this.data.colorList[this.data.index] = {}
     
     // 先将所有用户选择的选项设置为红色
-    for(let i=0;i<chooseValue.length;i++){
-      this.data.colorList[this.data.index][chooseValue[i]]= 'rgba(255, 0, 0, 0.473)'
+    if (Array.isArray(chooseValue)) {
+      for(let i=0;i<chooseValue.length;i++){
+        this.data.colorList[this.data.index][chooseValue[i]]= 'rgba(255, 0, 0, 0.473)'
+      }
+    } else {
+      // 单选题处理
+      this.data.colorList[this.data.index][chooseValue]= 'rgba(255, 0, 0, 0.473)'
     }
     
     // 再将所有正确答案设置为绿色
     for(let i=0;i<rightAnswer.length;i++){
       this.data.colorList[this.data.index][rightAnswer[i]]= 'rgba(0, 128, 0, 0.452)'
-      if(!isCorrect && chooseValue.indexOf(rightAnswer[i]) !== -1){
+      if(!isCorrect && ((Array.isArray(chooseValue) && chooseValue.indexOf(rightAnswer[i]) !== -1) || chooseValue === rightAnswer[i])){
         this.data.colorList[this.data.index][rightAnswer[i]]= 'rgba(255, 255, 0, 0.5)' // 黄色
       }
     }
-
 
     //更新当前位置
     this.PositionUpdate(this.data.index);
@@ -359,7 +371,10 @@ Page({
 
   //更新错题
   ErrorQSUpdate(wrongId){
+    let openId = app.globalData.openid
+
     errorqs.where({
+      _openid: openId,
       questionId:wrongId,
     }).get()
     .then(res=>{
@@ -382,7 +397,10 @@ Page({
   },
   //添加错题(index)
   ErrorQSAdd(wrongId){
+    let openId = app.globalData.openid
+
     errorqs.where({
+      _openid: openId,
       questionId:wrongId,
     }).get()
     .then(res=>{
@@ -391,6 +409,7 @@ Page({
         console.log(wrongId);
         errorqs.add({
           data:{
+            _openid: openId,
           questionId:wrongId
         },
         })
@@ -522,6 +541,48 @@ Page({
   changeIndex(){
 
 
+  },
+
+  // 获取用户输入的题号
+  inputQuestionNumber(e) {
+    this.setData({
+      inputNumber: e.detail.value
+    });
+  },
+
+  // 跳转到指定题目
+  jumpToQuestion() {
+    const inputNumber = parseInt(this.data.inputNumber);
+    
+    // 检查输入是否有效
+    if (!inputNumber || isNaN(inputNumber)) {
+      return wx.showToast({
+        title: '请输入有效题号',
+        icon: 'none'
+      });
+    }
+    
+    // 检查题号范围
+    if (inputNumber < 1 || inputNumber > this.data.questionList.length) {
+      return wx.showToast({
+        title: `题号范围为1-${this.data.questionList.length}`,
+        icon: 'none'
+      });
+    }
+    
+    // 设置新的索引（题号-1为索引）
+    const newIndex = inputNumber - 1;
+    this.setData({
+      index: newIndex
+    });
+    
+    // 更新当前位置
+    this.PositionUpdate(newIndex);
+    
+    wx.showToast({
+      title: `已跳转到第${inputNumber}题`,
+      icon: 'none'
+    });
   }
 
 })

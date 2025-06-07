@@ -1,4 +1,6 @@
 <!--pages/admin.wxml-->
+<wxs src="./admin.wxs" module="tools" />
+
 <view class="container">
   <!-- 密码验证界面 -->
   <block wx:if="{{!isAuthenticated}}">
@@ -19,10 +21,17 @@
     </view>
   </view>
 
+  <!-- 标签页切换 -->
+  <view class="tab-container">
+    <view class="tab {{currentTab === 'pending' ? 'active' : ''}}" bindtap="switchTab" data-tab="pending">待审核</view>
+    <view class="tab {{currentTab === 'approved' ? 'active' : ''}}" bindtap="switchTab" data-tab="approved">已通过</view>
+    <view class="tab {{currentTab === 'rejected' ? 'active' : ''}}" bindtap="switchTab" data-tab="rejected">已拒绝</view>
+  </view>
+
   <!-- 批量操作区域 -->
   <view class="batch-actions">
-    <view class="select-all" bindtap="toggleSelectAll">
-      <checkbox checked="{{allSelected}}" style="transform:scale(0.8)" />
+    <view class="select-all" catchtap="toggleSelectAll">
+      <checkbox checked="{{allSelected}}" />
       <text>全选</text>
     </view>
     <view class="action-buttons">
@@ -34,7 +43,7 @@
   <!-- 用户列表 -->
   <view class="user-list">
     <view class="list-header">
-      <text class="header-item">选择</text>
+      <text class="header-item"></text>
       <text class="header-item">姓名</text>
       <text class="header-item">电话</text>
       <text class="header-item">状态</text>
@@ -46,27 +55,25 @@
     </block>
     
     <block wx:elif="{{userList.length === 0}}">
-      <view class="empty-list">暂无待审核用户</view>
+      <view class="empty-list">暂无{{currentTab === 'pending' ? '待审核' : currentTab === 'approved' ? '已通过' : '已拒绝'}}用户</view>
     </block>
     
     <block wx:else>
       <scroll-view scroll-y class="scroll-view">
         <view class="user-item" wx:for="{{userList}}" wx:key="_id">
           <view class="item-select" catchtap="selectUser" data-id="{{item._id}}">
-            <checkbox checked="{{selectedUsers.includes(item._id)}}" style="transform:scale(0.8)" />
+            <checkbox checked="{{tools.isUserSelected(selectedUsers,item._id)}}" />
           </view>
           <view class="item-name">{{item.trueName || '未填写'}}</view>
           <view class="item-phone">{{item.tel || '未填写'}}</view>
-          <view class="item-status {{item.checked ? 'status-approved' : 'status-pending'}}">
-            {{item.checked ? '已审核' : '待审核'}}
+          <view class="item-status {{item.checked === 'approved' ? 'status-approved' : item.checked === 'rejected' ? 'status-rejected' : 'status-pending'}}">
+            {{item.checked === 'approved' ? '已通过' : item.checked === 'rejected' ? '已拒绝' : '待审核'}}
           </view>
           <view class="item-actions">
-            <!-- <view class="action-btn-group" wx:if="{{!item.checked}}"> -->
             <view class="action-btn-group">
               <button class="btn-mini btn-approve" catchtap="approveUser" data-id="{{item._id}}" data-approve="{{true}}">通过</button>
               <button class="btn-mini btn-reject" catchtap="approveUser" data-id="{{item._id}}" data-approve="{{false}}">拒绝</button>
             </view>
-            <!-- <text wx:if="{{item.checked}}" class="processed-text">已处理</text> -->
           </view>
         </view>
       </scroll-view>

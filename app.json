@@ -10,6 +10,7 @@
         "pages/test/subject",
         "pages/watch/subject",
         "pages/wrong/wrong",
+        "pages/wrong/wrong_list",
         "pages/my/profile",
         "pages/admin/admin"
     ],

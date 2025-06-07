@@ -5,6 +5,19 @@
   <view class="padding-top text-center">
     第<text class="text-bold text-xl">{{index+1}}</text>题
     共<text class="text-bold text-xl">{{questionList.length}}</text>题
+    <view class="text-sm text-gray">题目ID: {{questionList[index]._id}}</view>
+  </view>
+  <view class="padding-xs flex-row-center" style="display: flex; align-items: center; justify-content: center;">
+    <input
+      type="number"
+      class="input text-sm"
+      placeholder="输入题号(1-{{questionList.length}})"
+      bindinput="inputQuestionNumber"
+      bindconfirm="jumpToQuestion"
+      bindblur="jumpToQuestion"
+      style="border: 1rpx solid #ddd; border-radius: 10rpx; padding: 6rpx; width: 22%; margin-right: 8rpx; text-align: center; font-size: 24rpx; height: 40rpx;"
+    />
+    <button class="cu-btn bg-red round text-sm" bindtap="jumpToQuestion" style="padding: 0 18rpx; height: 40rpx; font-size: 24rpx; min-width: 60rpx;">跳转</button>
   </view>
   <view class='page__hd padding'>
     <view class="page__title">
@@ -15,20 +28,35 @@
   </view>
 
   <view class="page__bd">
-    <checkbox-group lass="radio-group" bindchange="radioChange">
-      <label class="radio my-choosebox" wx:if="{{!showAnswer[index]}}" wx:for="{{questionList[index].option}}" wx:for-index="key"  wx:for-item="value" wx:key="index" >
-        <checkbox class="radio_right" value="{{key}}" checked="{{questionList[index].checked}}" disabled="{{showAnswer[index]}}"/>
+    <!-- 单选题使用radio-group -->
+    <radio-group bindchange="radioChange" wx:if="{{questionList[index]['true'].length <=1 && !showAnswer[index]}}">
+      <label class="radio my-choosebox" wx:for="{{questionList[index].option}}" wx:for-index="key" wx:for-item="value" wx:key="index">
+        <radio class="radio_right" value="{{key}}" checked="{{questionList[index].checked}}" disabled="{{showAnswer[index]}}"/>
         <text class="margin-left-xs">{{key}} :</text>
         <text class="margin-left-xs">{{value}}</text>
       </label>
+    </radio-group>
 
-      <label class="radio my-choosebox" wx:if="{{showAnswer[index]}}" wx:for="{{questionList[index].option}}"     wx:for-index="key"  wx:for-item="value" wx:key="index"
-      style="background-color:{{colorList[index][key]}}" >
+    <!-- 多选题使用checkbox-group -->
+    <checkbox-group bindchange="radioChange" wx:if="{{questionList[index]['true'].length > 1 && !showAnswer[index]}}">
+      <label class="radio my-choosebox" wx:for="{{questionList[index].option}}" wx:for-index="key" wx:for-item="value" wx:key="index">
         <checkbox class="radio_right" value="{{key}}" checked="{{questionList[index].checked}}" disabled="{{showAnswer[index]}}"/>
         <text class="margin-left-xs">{{key}} :</text>
         <text class="margin-left-xs">{{value}}</text>
       </label>
     </checkbox-group>
+
+    <!-- 已回答的题目显示 -->
+    <view wx:if="{{showAnswer[index]}}">
+      <label class="radio my-choosebox" wx:for="{{questionList[index].option}}" wx:for-index="key" wx:for-item="value" wx:key="index"
+      style="background-color:{{colorList[index][key]}}">
+        <text class="margin-left-xs">{{key}} :</text>
+        <text class="margin-left-xs">{{value}}</text>
+      </label>
+      <view class="padding-sm">
+        <text class="text-bold">正确答案: {{questionList[index]['true']}}</text>
+      </view>
+    </view>
   </view>
 
   <view class="main">

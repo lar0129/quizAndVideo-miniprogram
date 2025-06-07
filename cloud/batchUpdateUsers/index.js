@@ -10,7 +10,7 @@ const _ = db.command
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const { userIds, checked } = event
+  const { userIds, status } = event
   
   if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
     return {
@@ -24,7 +24,7 @@ exports.main = async (event, context) => {
     const tasks = userIds.map(userId => {
       return db.collection('activityUser').doc(userId).update({
         data: {
-          checked: checked
+          checked: status
         }
       })
     })
