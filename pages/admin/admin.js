@@ -287,20 +287,98 @@ Page({
 
     // 发送审核结果通知
     sendApprovalNotification(userIds, approve) {
-        // 调用云函数发送消息通知
-        wx.cloud.callFunction({
-            name: 'sendApprovalNotification',
-            data: {
-                userIds,
-                approve
-            }
-        }).then(res => {
-            console.log('通知发送成功', res);
-        }).catch(err => {
-            console.error('通知发送失败', err);
+      if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+        console.log("无效的用户ID列表")
+        return Promise.resolve({
+          success: false,
+          message: '无效的用户ID列表'
         });
+      }
+    
+      // 获取用户信息
+      const tasks = userIds.map(userId => db.collection('activityUser').doc(userId).get());
+    
+      return Promise.all(tasks).then(userResults => {
+          const users = userResults.map(res => res.data)
+          users.map(user => {
+            if (user && user._openid) {
+             // 调用云函数发送消息通知
+            let openid = user._openid
+            let realName = user.trueName
+            console.log("approved openId: ",openid,realName)
+            wx.cloud.callFunction({
+                name: 'sendApprovalNotification',
+                data: {
+                    openid,
+                    approve,
+                    realName
+                }
+            }).then(res => {
+                console.log('通知发送成功', res);
+            }).catch(err => {
+                console.error('通知发送失败', err);
+            });
+          }
+        })
+      })
     },
 
+    sendApprovalNotificationLocal(userIds, approve) {
+      if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+        return Promise.resolve({
+          success: false,
+          message: '无效的用户ID列表'
+        });
+      }
+    
+      // 获取用户信息
+      const tasks = userIds.map(userId => db.collection('activityUser').doc(userId).get());
+    
+      return Promise.all(tasks).then(userResults => {
+        const users = userResults.map(res => res.data);
+    
+        const notifyTasks = users.map(user => {
+          if (user && user._openid) {
+            return cloud.openapi.subscribeMessage.send({
+              touser: user._openid,
+              templateId: 'kfOfmwl9j51fnXMDa5NO6AWi3oHJ0CtMSpqnIrm-RMQ',
+              data: {
+                phrase10: {
+                  value: approve ? '审核通过通知' : '审核未通过通知'
+                },
+                thing15: {
+                  value: approve
+                    ? '您的账号已通过审核，现在可以使用所有功能'
+                    : '您的姓名或电话未通过审核，请联系管理老师'
+                },
+                thing8: {
+                  value: user.realName || ''
+                }
+              }
+            }).catch(err => {
+              console.error('发送订阅消息失败', err);
+              return null;
+            });
+          }
+          return null;
+        });
+    
+        return Promise.all(notifyTasks.filter(task => task !== null)).then(() => {
+          return {
+            success: true,
+            message: '通知发送成功'
+          };
+        });
+      }).catch(error => {
+        console.error('发送通知失败', error);
+        return {
+          success: false,
+          error,
+          message: '发送通知失败'
+        };
+      });
+    },
+    
     // 切换自动审核状态
     toggleAutoApprove(e) {
         const autoApprove = e.detail.value;

@@ -158,6 +158,16 @@ Page({
     console.log(e.detail);
   },
   submitUserInfo(){
+    wx.requestSubscribeMessage({
+      tmplIds: ["kfOfmwl9j51fnXMDa5NO6AWi3oHJ0CtMSpqnIrm-RMQ"],
+      success(res){
+        console.log("授权消息成功",res)
+      },
+      fail(res){
+        console.log("授权消息失败",res)
+      },
+    })
+
     // 如果用户已通过审核，不允许再次提交
     if (this.data.checked === 'approved') {
       wx.showToast({
@@ -182,7 +192,9 @@ Page({
       const checkedStatus = autoApprove && 
         this.data.trueName.length >= 2 && 
         isValidPhone ? 'approved' : 'pending';
-      // 更新用户信息
+
+
+        // 更新用户信息
       activityUser.where({
         _openid:app.globalData.openid
       })
@@ -202,11 +214,21 @@ Page({
           checked: checkedStatus
         });
         
-        wx.showToast({
-          title: '成功提交待审核',
-          icon: 'success',
-          duration: 2000//持续的时间
-        })
+
+        if(checkedStatus && autoApprove){
+          wx.showToast({
+            title: '符合格式 通过审核',
+            icon: 'success',
+            duration: 2000//持续的时间
+          })
+        }
+        else{
+          wx.showToast({
+            title: '成功提交待审核',
+            icon: 'success',
+            duration: 2000//持续的时间
+          })
+        }
       })
       .catch(err=>{
         wx.showToast({
